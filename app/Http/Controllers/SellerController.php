@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use Auth;
 use Illuminate\Http\Request;
@@ -9,7 +10,9 @@ use Illuminate\Http\Request;
 class SellerController extends Controller
 {
     public function dashboard(){
-       return view('seller.dashboard');
+        $order_count = Order::with('seller')->where('seller_id',Auth::id())->count();
+        $product_count = Product::with('seller')->where('seller_id',Auth::id())->count();
+       return view('seller.dashboard',compact('order_count','product_count'));
     }
 
     public function addProduct(){

@@ -10,31 +10,22 @@
         </nav>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card bg-primary text-white p-3">
                     <div class="d-flex justify-content-between">
-                        <h5>Total Users</h5>
-                        <i class="fas fa-users fa-2x"></i>
+                        <h5>Orders Count</h5>
+                        <i class="fas fa-list fa-2x"></i>
                     </div>
-                    <h3>1,245</h3>
+                    <h3>{{$order_count}}</h3>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card bg-success text-white p-3">
                     <div class="d-flex justify-content-between">
-                        <h5>Total Orders</h5>
+                        <h5>Product Count</h5>
                         <i class="fas fa-shopping-cart fa-2x"></i>
                     </div>
-                    <h3>785</h3>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-warning text-white p-3">
-                    <div class="d-flex justify-content-between">
-                        <h5>Pending Requests</h5>
-                        <i class="fas fa-exclamation-circle fa-2x"></i>
-                    </div>
-                    <h3>12</h3>
+                    <h3>{{$product_count}}</h3>
                 </div>
             </div>
         </div>

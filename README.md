@@ -10,3 +10,18 @@ Project setup step
     - php artisan migrate
     - php artisan:db seed
 
+#Login Details
+1. customer login
+    email: customer@gmail.com'
+    password: customer
+
+2. admin login
+    email: admin@gmail.com'
+    password: admin
+
+3. seller login        
+    email: seller1@gmail.com'
+    password: seller1
+
+    email: seller2@gmail.com'
+    password: seller2
