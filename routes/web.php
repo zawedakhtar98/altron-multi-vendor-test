@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 
  Route::get('/',[CustomerController::class, 'product_list'])->name('product');
- Route::prefix('/cart')->group(function(){
+ Route::prefix('/cart')->middleware(['auth','customer'])->group(function(){
      Route::post('/add/{id}', [CustomerController::class, 'addToCart'])->name('cart.add');
      Route::get('/count', [CustomerController::class, 'cartCount'])->name('cart.count');
      Route::get('/view', [CustomerController::class, 'viewCart'])->name('cart.view');
@@ -15,8 +15,8 @@ use App\Http\Controllers\CustomerController;
      Route::post('/remove/{id}', [CustomerController::class, 'removeCart'])->name('cart.remove');
      
 });
-Route::get('/checkout', [CustomerController::class, 'checkout'])->name('checkout');
-Route::post('/order-place', [CustomerController::class, 'OrderPlace'])->name('order-place');
+Route::get('/checkout', [CustomerController::class, 'checkout'])->name('checkout')->middleware(['auth','customer']);
+Route::post('/order-place', [CustomerController::class, 'OrderPlace'])->name('order-place')->middleware(['auth','customer']);
 
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
