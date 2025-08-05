@@ -89,8 +89,6 @@ class CartService{
     }
     
     public function removeCart($id){
-
-        return  CartItem::findOrFail($id);
         if(Auth::check()){
             try{
                 $cartItem = CartItem::findOrFail($id);

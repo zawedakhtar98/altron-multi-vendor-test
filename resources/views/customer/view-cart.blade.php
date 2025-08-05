@@ -19,6 +19,7 @@
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Subtotal</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +39,7 @@
                     </td>
                     <td>₹{{ number_format($cartItem->price, 2) }}</td>
                     <td>₹{{ number_format($subtotal, 2) }}</td>
+                    <td><button class="btn btn-danger btn-sm remove-cart" data-cart_id="{{$cartItem->id}}">remove</button></td>
                 </tr>
             @endforeach
             </tbody>
@@ -81,11 +83,15 @@
                 success:function(res){
                     if(res.status){
                          Command: toastr["success"](res.message);
-                         window.location.reload();
+                         setTimeout(()=>{
+                            window.location.reload();
+                         },20000)
                     }
                     else{
                         Command: toastr["error"](res.message);
-                        window.location.reload();
+                        setTimeout(()=>{
+                            window.location.reload();
+                         },20000)
                     }
                 }
             })
