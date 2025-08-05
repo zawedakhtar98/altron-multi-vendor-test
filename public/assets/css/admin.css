@@ -1,0 +1,32 @@
+body {
+    background-color: #f8f9fa;
+}
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    background: #343a40;
+    color: white;
+    padding-top: 20px;
+}
+.sidebar a {
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 10px;
+}
+.sidebar a:hover {
+    background: #495057;
+    border-radius: 5px;
+}
+.content {
+    margin-left: 260px;
+    padding: 20px;
+}
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

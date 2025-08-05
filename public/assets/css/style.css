@@ -1,0 +1,15 @@
+body {
+    background-color: #f8f9fa;
+}
+.product-card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+}
+.carousel-inner img {
+    height: 200px;
+    object-fit: cover;
+}
