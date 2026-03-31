@@ -3,23 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
-    protected $fillable = [
+    public $fillable = [
         'name',
+        'stock',
         'price',
-        'quantity',
-        'in_stock',
-        'seller_id',
-        'image',
+        'created_at',
+        'updated_at',
+        'category_id'
     ];
 
-    public function seller(){
-        return $this->belongsTo(User::class, 'seller_id','id');
-    }
-
-    public function orderItem(){
-        return $this->hasMany(OrderItem::class);
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 }

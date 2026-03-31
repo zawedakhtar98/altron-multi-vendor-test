@@ -6,6 +6,7 @@ use App\Models\User;
 use Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash as FacadesHash;
 
 class UserSeeder extends Seeder
 {
@@ -18,25 +19,25 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Md Zawed',
                 'email' => 'customer@gmail.com',
-                'password' => Hash::make('customer'), // Ensure to hash the password
+                'password' => FacadesHash::make('customer'), // Ensure to hash the password
                 'role' => 'customer', 
             ],
             [
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
-                'password' => Hash::make('admin'), // Ensure to hash the password
+                'password' => FacadesHash::make('admin'), // Ensure to hash the password
                 'role' => 'admin', 
             ],
             [
                 'name' => 'Seller1',
                 'email' => 'seller1@gmail.com',
-                'password' => Hash::make('seller1'), // Ensure to hash the password
+                'password' => FacadesHash::make('seller1'), // Ensure to hash the password
                 'role' => 'seller',
             ],
             [
                 'name' => 'Seller2',
                 'email' => 'seller2@gmail.com',
-                'password' => Hash::make('seller2'), // Ensure to hash the password
+                'password' => FacadesHash::make('seller2'), // Ensure to hash the password
                 'role' => 'seller',
             ]
         ]);
