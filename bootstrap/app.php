@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->group('admin', [
+        $middleware->group('admin', [   
             \Illuminate\Auth\Middleware\Authenticate::class,// must be logged in
             AdminMiddleware::class,
         ]);

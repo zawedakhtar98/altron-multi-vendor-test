@@ -1,47 +1,48 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SellerController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CustomerController;
 
- Route::get('/',[CustomerController::class, 'product_list'])->name('product');
- Route::prefix('/cart')->middleware(['auth','customer'])->group(function(){
-     Route::post('/add/{id}', [CustomerController::class, 'addToCart'])->name('cart.add');
-     Route::get('/count', [CustomerController::class, 'cartCount'])->name('cart.count');
-     Route::get('/view', [CustomerController::class, 'viewCart'])->name('cart.view');
-     Route::post('/update', [CustomerController::class, 'updateCartItem'])->name('cart.update');
-     Route::post('/remove/{id}', [CustomerController::class, 'removeCart'])->name('cart.remove');
-     
-});
-Route::get('/checkout', [CustomerController::class, 'checkout'])->name('checkout')->middleware(['auth','customer']);
-Route::post('/order-place', [CustomerController::class, 'OrderPlace'])->name('order-place')->middleware(['auth','customer']);
-
-Route::prefix('auth')->group(function () {
-    Route::get('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/login', [AuthController::class, 'verifyUser'])->name('login');
-    Route::get('/register', [AuthController::class, 'register'])->name('register');
-    Route::post('/register', [AuthController::class, 'SaveUsers'])->name('register');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-});
-
-
-Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/product-list', [AdminController::class, 'ProductList'])->name('admin.product-list');
-    Route::get('/order-list', [AdminController::class, 'getAllOrders'])->name('admin.order-list');
-    Route::get('orders/{id}/items', [AdminController::class, 'orderItems']);
-
-});
-
-
-Route::prefix('seller')->middleware(['auth','seller'])->group(function(){
-    Route::get('/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
-   
-    Route::prefix('/product')->group(function(){
-        Route::get('/add', [SellerController::class, 'addProduct'])->name('seller.product.add');
-        Route::post('/store', [SellerController::class, 'storeProduct'])->name('seller.product.store');
-        Route::get('/list', [SellerController::class, 'ProductList'])->name('seller.product.list');
-    });
+Route::get('/',function(){  
+    //syntax wise this correct but where condition work after join 
+    // return DB::table('products as p')
+    //         ->leftJoin('categories as c','p.category_id','=','c.id')->where('c.status','active')
+    //         ->leftJoin('categories as c2','c.sub_category','=','c2.id')->where('c2.status','active')
+    //         ->select('p.*','c.name as category_name','c2.name as sub_category')
+    //         ->get();
+            return $product_withActivecategory = DB::table('products as p')
+                       ->leftJoin('categories as c',function($join){
+                           $join->on('p.category_id','=','c.id')
+                           ->where('c.status','active');
+                       })
+                       ->select('p.*','c.name as category_name')
+                       ->paginate(10);
+        $totalProductCountCategory = DB::table('products as p')
+                                        ->leftJoin('categories as c','c.id','=','p.category_id')
+                                        ->select('c.name as category_name',DB::raw('count(p.id) as product_count'))
+                                        ->whereNotNull('c.id')
+                                        ->groupBy('p.category_id','c.name')
+                                        ->get();
+        // $productWithoutCategory  = DB::table('products as p')->whereNull('p.category_id')->get();
+        $productWithoutCategory  = DB::table('products as p')
+                                        ->leftJoin('categories as c','c.id','=','p.category_id')
+                                        ->select('p.*')
+                                        ->whereNull('p.category_id')->get();
+        $productAcIncCat = DB::table('products as p')
+                            ->join('categories as c',function($join){
+                                $join->on('c.id','=','p.category_id')
+                                ->where('c.status','=','active');
+                            })                                        
+                            ->join('categories as c2',function($join){
+                                $join->on('c2.sub_category','=','c.id')
+                                ->where('c2.status','=','inactive');
+                            })
+                            ->select('p.*','c.name as category_name','c2.name as sub_category')
+                            ->get();  
+    return  [
+                'totalProductCountCategory'=>$totalProductCountCategory,
+                'product_withActivecategory'=>$product_withActivecategory,
+                'productWithoutCategory'=>$productWithoutCategory,
+                'productAcIncCat'=>$productAcIncCat
+            ];
 });
